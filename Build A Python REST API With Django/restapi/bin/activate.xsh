@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/Users/kaddy/Desktop/projects/udemy/Build A Python REST API With Django/restapi"
+$VIRTUAL_ENV = r"/Users/kaddy/Desktop/projects/udemy_courses/udemy/Build A Python REST API With Django/restapi"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

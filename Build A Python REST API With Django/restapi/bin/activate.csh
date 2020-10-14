@@ -10,7 +10,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV '/Users/kaddy/Desktop/projects/udemy/Build A Python REST API With Django/restapi'
+setenv VIRTUAL_ENV '/Users/kaddy/Desktop/projects/udemy_courses/udemy/Build A Python REST API With Django/restapi'
 
 set _OLD_VIRTUAL_PATH="$PATH:q"
 setenv PATH "$VIRTUAL_ENV:q/bin:$PATH:q"

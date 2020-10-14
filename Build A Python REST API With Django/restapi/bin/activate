@@ -46,7 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/Users/kaddy/Desktop/projects/udemy/Build A Python REST API With Django/restapi'
+VIRTUAL_ENV='/Users/kaddy/Desktop/projects/udemy_courses/udemy/Build A Python REST API With Django/restapi'
 if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
     VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
 fi

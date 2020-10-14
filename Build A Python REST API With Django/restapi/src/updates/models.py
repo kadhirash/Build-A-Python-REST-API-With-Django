@@ -25,7 +25,7 @@ class UpdateQuerySet(models.QuerySet):
 
     # more efficient way to serialize data
     def serialize(self):
-        list_values = list(self.values("user", "content", "image"))
+        list_values = list(self.values("id", "user", "content", "image"))
         print(list_values)
         return json.dumps(list_values)
 

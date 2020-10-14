@@ -25,6 +25,7 @@ from updates.views import (
 )
 
 urlpatterns = [
+    path("", json_example_view),
     path("admin/", admin.site.urls),
     path(
         "api/updates/", include("updates.api.urls")
