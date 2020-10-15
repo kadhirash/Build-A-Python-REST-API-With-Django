@@ -1,18 +1,14 @@
 import json
-from django.views.generic import View
+import sys
+
 from django.http import HttpResponse
-
-
+from django.views.generic import View
 from testapi.mixins import HttpResponseMixin
 
 from ..forms import UpdateModelForm
-
 from ..models import Update as UpdateModel
-
 from .mixins import CSRFExemptMixin
-
 from .utils import is_json
-
 
 # Creating, Updating, Deleting, Retrieving (1) -- Update Model
 
@@ -56,7 +52,7 @@ class UpdateModelDetailAPIView(HttpResponseMixin, CSRFExemptMixin, View):
         valid_json = is_json(request.body)
         if not valid_json:
             error_data = json.dumps(
-                {"message:" "Invalid data sent, please send using JSON."}
+                {"message": "Invalid data sent, please send using JSON."}
             )
             return self.render_to_response(error_data, status=400)
 
@@ -65,7 +61,7 @@ class UpdateModelDetailAPIView(HttpResponseMixin, CSRFExemptMixin, View):
             error_data = json.dumps({"message": "Update not found"})
             return self.render_to_response(error_data, status=404)
 
-        new_data = {}
+        # new_data = {}
         data = json.loads(obj.serialize())
         passed_data = json.loads(request.body)
         for key, value in passed_data.items():
@@ -98,25 +94,61 @@ class UpdateModelDetailAPIView(HttpResponseMixin, CSRFExemptMixin, View):
             return self.render_to_response(json_data, status=400)
 
 
+# /api/updates/
 class UpdateModelListAPIView(HttpResponseMixin, CSRFExemptMixin, View):
     """
-    List View
+    one endpoint for CRUD
+    List View --> Retrieve --> Detail view
     Create View
+    Update 
+    Delete
     """
 
     is_json = True
+    query_set = None
+
+    def get_queryset(self):
+        qs = UpdateModel.objects.all()
+        self.query_set = qs
+        return qs
+
+    def get_object(self, id=None):
+        # try:
+        #     obj = UpdateModel.objects.get(id=id)
+        # except UpdateModel.DoesNotExist:
+        #     obj = None
+        # return obj
+        """
+        Below handles DNE exception as well
+        """
+        if not id:
+            return None
+        qs = self.get_queryset().filter(id=id)
+        if qs.count() == 1:
+            return qs.first()
+        return None
 
     def get(self, request, *args, **kwargs):
-        qs = UpdateModel.objects.all()
-        json_data = qs.serialize()
-        return self.render_to_response(json_data)
+        data = json.loads(request.body)
+        passed_id = data.get("id", None)
+        if passed_id:
+            obj = self.get_object(id=passed_id)
+            if not obj:
+                error_data = json.dumps({"message": "Update not found"})
+                return self.render_to_response(error_data, status=404)
+            json_data = obj.serialize()
+            return self.render_to_response(json_data)
+        else:
+            qs = self.get_queryset()
+            json_data = qs.serialize()
+            return self.render_to_response(json_data)
 
     def post(self, request, *args, **kwargs):
         # print(request.POST)
         valid_json = is_json(request.body)
         if not valid_json:
             error_data = json.dumps(
-                {"message:" "Invalid data sent, please send using JSON."}
+                {"message": "Invalid data sent, please send using JSON."}
             )
             return self.render_to_response(error_data, status=400)
         data = json.loads(request.body)
@@ -131,7 +163,71 @@ class UpdateModelListAPIView(HttpResponseMixin, CSRFExemptMixin, View):
         data = {"message": "Unknown data"}
         return self.render_to_response(data, status=400)
 
+    # def delete(self, request, *args, **kwargs):
+    #     data = json.dumps({"Message": "You can't delete an entire list."})
+    #     status_code = 403  # Forbidden
+    #     return self.render_to_response(data, status=403)
+    def put(self, request, *args, **kwargs):
+        valid_json = is_json(request.body)
+        if not valid_json:
+            error_data = json.dumps(
+                {"message": "Invalid data sent, please send using JSON."}
+            )
+            return self.render_to_response(error_data, status=400)
+        passed_data = json.loads(request.body)
+        passed_id = passed_data.get("id", None)
+
+        if not passed_id:
+            error_data = json.dumps({"id": "This is a required field to updated item."})
+            return self.render_to_response(error_data, status=400)
+
+        obj = self.get_object(id=passed_id)
+        if not obj:
+            error_data = json.dumps({"message": "Object not found"})
+            return self.render_to_response(error_data, status=404)
+
+        # new_data = {}
+        data = json.loads(obj.serialize())
+
+        for key, value in passed_data.items():
+            data[key] = value
+        print(passed_data)
+        form = UpdateModelForm(passed_data, instance=obj)
+        if form.is_valid():
+            obj = form.save(commit=True)
+            obj_data = json.dumps(data)
+            return self.render_to_response(obj_data, status=201)
+        if form.errors:
+            data = json.dumps(form.errors)
+            return self.render_to_response(data, status=400)
+
+        json_data = json.dumps({"message": "Something"})
+        return self.render_to_response(json_data)
+
     def delete(self, request, *args, **kwargs):
-        data = json.dumps({"Message": "You can't delete an entire list."})
-        status_code = 403  # Forbidden
-        return self.render_to_response(data, status=403)
+        valid_json = is_json(request.body)
+        if not valid_json:
+            error_data = json.dumps(
+                {"message": "Invalid data sent, please send using JSON."}
+            )
+            return self.render_to_response(error_data, status=400)
+        passed_data = json.loads(request.body)
+        passed_id = passed_data.get("id", None)
+
+        if not passed_id:
+            error_data = json.dumps({"id": "This is a required field to updated item."})
+            return self.render_to_response(error_data, status=400)
+
+        obj = self.get_object(id=passed_id)
+        if not obj:
+            error_data = json.dumps({"message": "Update not found"})
+            return self.render_to_response(error_data, status=404)
+
+        _deleted, item_deleted = obj.delete()
+        print(_deleted)
+        if _deleted == 1:
+            json_data = json.dumps({"message": "Successfully deleted"})
+            return self.render_to_response(json_data, status=200)
+        else:
+            json_data = json.dumps({"message": "Could not delete item, try again."})
+            return self.render_to_response(json_data, status=400)
