@@ -11,7 +11,7 @@ class UpdateModelForm(forms.ModelForm):
     def clean(self, *args, **kwargs):
         data = self.cleaned_data
         content = data.get("content", None)
-        if not content or content == "":
+        if content == "":
             content = None
         image = data.get("image", None)
         if not content and not image:
