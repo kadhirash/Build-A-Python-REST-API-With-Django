@@ -73,7 +73,6 @@ Awesome! This should allow you now to start on your RESTful API creation journey
 ## Screenshots and Code Examples
 ### Pure Django
 #### Admin Features
-#### Admin Features
 ![Admin Login](img/django_admin_login.png)
 
 ![Admin Front Page](img/django_admin_front_page.png)
