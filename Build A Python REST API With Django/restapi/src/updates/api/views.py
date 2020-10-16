@@ -94,6 +94,7 @@ class UpdateModelDetailAPIView(HttpResponseMixin, CSRFExemptMixin, View):
             return self.render_to_response(json_data, status=400)
 
 
+
 # /api/updates/
 class UpdateModelListAPIView(HttpResponseMixin, CSRFExemptMixin, View):
     """

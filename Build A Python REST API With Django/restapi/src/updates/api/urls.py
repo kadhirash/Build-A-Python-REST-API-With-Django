@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.urls import path, re_path
 
-from .views import UpdateModelDetailAPIView, UpdateModelListAPIView
+from .views import UpdateModelListAPIView, UpdateModelDetailAPIView
 
 urlpatterns = [
     path("", UpdateModelListAPIView.as_view()),  # api/updates/ -- List/Create

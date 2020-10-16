@@ -19,11 +19,11 @@ def get_list(id=None):
         print("Not good sign?")
     data = r.json()
     return data
-
+print(get_list())
 
 def create_update():
     new_data = {"content": "Some more cool content"}
-    r = requests.post(BASE_URL + ENDPOINT, data=new_data)  # json.dumps(new_data))
+    r = requests.post(BASE_URL + ENDPOINT,data=json.dumps(new_data))
     print(r.status_code)
     print(r.headers)
     if r.status_code == requests.codes.ok:
@@ -32,12 +32,11 @@ def create_update():
     return r.text
 
 
-print(get_list())
-# print(create_update())
+#print(create_update())
 
 
 def do_obj_update():
-    new_data = {"id": 1, "content": "Some new content"}
+    new_data = {"id": 23, "user": 1, "content": "Testing this update"}
     r = requests.put(BASE_URL + ENDPOINT, data=json.dumps(new_data))
 
     # new_data = {"id":1, "content": "Some more cool content"}
@@ -48,10 +47,10 @@ def do_obj_update():
         # print(r.json())
         return r.json()
     return r.text
-
+print(do_obj_update())
 
 def do_obj_delete():
-    new_data = {"id": 3}
+    new_data = {"id": 23}
     r = requests.delete(BASE_URL + ENDPOINT, data=json.dumps(new_data))
 
     # new_data = {"id":1, "content": "Some more cool content"}
@@ -63,6 +62,5 @@ def do_obj_delete():
         return r.json()
     return r.text
 
-# print(do_obj_update())
-# print(do_obj_delete())
+#print(do_obj_delete())
 
