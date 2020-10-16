@@ -12,11 +12,13 @@
 * [Credits](#credits)
 * [Roadblocks](#roadblocks)
 ## General Information
-*(todo)*
+
+With this project I was able to further understand RESTful API's, Django/DRF, as well as CRUD operations. I have always been curious about REST API's as I see it being used everywhere, but being able to implement one using Django was really fun! 
+
 ## Technologies/Tools
 
-* Python
-* Django/DRF
+* Python 3.8.5
+* Django 3.1.2/DRF
 * RESTful APIs
 
 ## Setup
@@ -71,9 +73,39 @@ Awesome! This should allow you now to start on your RESTful API creation journey
 ## Screenshots and Code Examples
 ### Pure Django
 #### Admin Features
-![Admin Login](/../restapi/img/django_admin_login.png)
+#### Admin Features
+![Admin Login](img/django_admin_login.png)
 
-![Admin Front Page]
+![Admin Front Page](img/django_admin_front_page.png)
+
+#### Create 
+> Adding an object with id 28
+
+![Create](img/create_update_t.png)
+
+> Showcasing it on the hosted website
+
+![Create](img/create_update_w.png)
+
+
+#### Retrieve
+> Now, retrieve all updated contents, notice id 28 is there!
+
+![Retrieve](img/retrieve.png)
+
+#### Update 
+> Updating id 28's content
+
+![Update](img/update_t.png)
+
+![Update](img/update_w.png)
+
+#### Delete 
+> Deleting id 28's content
+
+![Delete](img/delete_t.png)
+
+![Delete](img/delete_w.png)
 
 ## Status
 
