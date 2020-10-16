@@ -69,7 +69,11 @@ Awesome! This should allow you now to start on your RESTful API creation journey
 
 
 ## Screenshots and Code Examples
-*(todo)*
+### Pure Django
+#### Admin Features
+![Admin Login](/../restapi/img/django_admin_login.png)
+
+![Admin Front Page]
 
 ## Status
 
